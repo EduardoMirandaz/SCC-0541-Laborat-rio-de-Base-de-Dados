@@ -1,3 +1,6 @@
+-- CARO CORRETOR - Se tentar rodar todas as inserções de uma vez pode ser que a tabela pitstops 
+-- não seja populada por conta de seu tamanho. (Basta rodar a inserção dela sozinha);
+
 
 -- Inserção dos dados da tabela CIRCUITS(circuitos)
 COPY CIRCUITS
@@ -37,12 +40,12 @@ WITH (DELIMITER ',', NULL '\N', HEADER true, FORMAT CSV);
 -- Inserção dos dados da tabela GEOCITIES15K (*)
 COPY GEOCITIES15K
 FROM '/tmp/DadosLabBD/Cities15000.tsv'
-WITH (DELIMITER '	', NULL '', HEADER false, FORMAT CSV)
+WITH (DELIMITER '	', NULL '', HEADER false, FORMAT CSV);
 
--- Inserção dos dados da tabela DRIVER_STANDINGS (classificação)
-COPY DRIVER_STANDINGS
-FROM '/tmp/DadosLabBD/driver_standings.csv'
-WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV)
+-- Inserção dos dados da tabela DRIVER(piloto)
+COPY DRIVER
+FROM '/tmp/DadosLabBD/drivers.csv'
+WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV);
 
 -- Inserção dos dados da tabela DRIVER_STANDINGS (classificação)
 COPY DRIVER_STANDINGS
@@ -52,15 +55,14 @@ WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV)
 -- Inserção dos dados da tabela LAPTIMES (tempos de volta)
 COPY LAPTIMES
 FROM '/tmp/DadosLabBD/lap_times.csv'
-WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV)
+WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV);
 
 -- Inserção dos dados da tabela PITSTOPS (*)
 COPY PITSTOPS
 FROM '/tmp/DadosLabBD/pit_stops.csv'
-WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV)
+WITH (DELIMITER ',', NULL '', HEADER true, FORMAT CSV);
 
 -- Inserção dos dados da tabela QUALIFYING (qualificatória)
-
 -- Aqui, precisaremos criar uma tabela temporária, devido à inconsistência nos dados
 -- do arquivo CSV quando inseridos com o tipo INTERVAL.
 CREATE TEMPORARY TABLE TEMP_QUALIFYING (
@@ -80,8 +82,6 @@ COPY temp_qualifying
 FROM '/tmp/DadosLabBD/qualifying.csv' 
 WITH (DELIMITER ',', FORMAT CSV, HEADER true, NULL '\N');
 
--- Inserindo na tabela qualifying aplicando os ajustes de conversão de tipo de dado
--- e removendo os vazios(setando eles para null na inserção).
 INSERT INTO QUALIFYING
 SELECT
     QUALIFYING_ID,
@@ -101,7 +101,7 @@ DROP TABLE temp_qualifying;
 -- Inserção dos dados da tabela RESULTS (Resultados)
 COPY RESULTS
 FROM '/tmp/DadosLabBD/results.csv'
-WITH (DELIMITER ',', NULL '\N', HEADER true, FORMAT CSV)
+WITH (DELIMITER ',', NULL '\N', HEADER true, FORMAT CSV);
 
 
 
